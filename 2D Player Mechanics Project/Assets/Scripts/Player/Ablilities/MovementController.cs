@@ -30,7 +30,7 @@ namespace Player.Abilities
         }
 
         // Update is called once per frame
-        void Update()
+        private void FixedUpdate()
         {
             Move();
             Flip();
