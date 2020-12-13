@@ -6,11 +6,12 @@ namespace Player.Abilities
 {
     [RequireComponent(typeof(Rigidbody2D))]
     [RequireComponent(typeof(InputController))]
+    [RequireComponent(typeof(SurroundController))]
     public class MovementController : MonoBehaviour
     {
         private Rigidbody2D _rigidbody;
         private InputController _inputController;
-
+        private SurroundController _surroundController;
 
         //player ability toggles
         public float speed = 10;
@@ -26,7 +27,7 @@ namespace Player.Abilities
         {
             _rigidbody = GetComponent<Rigidbody2D>();
             _inputController = GetComponent<InputController>();
-            
+            _surroundController = GetComponent<SurroundController>();
         }
 
         // Update is called once per frame
@@ -38,7 +39,8 @@ namespace Player.Abilities
        
         private void Move()
         {
-            _rigidbody.velocity = new Vector2(_inputController.HorizontalVal * speed, _rigidbody.velocity.y);
+            if(!_surroundController.IsTouchingWall)
+                _rigidbody.velocity = new Vector2(_inputController.HorizontalVal * speed, _rigidbody.velocity.y);
         }
         
         private void Flip()
