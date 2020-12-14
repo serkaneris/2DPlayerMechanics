@@ -54,7 +54,7 @@ namespace Player.Abilities
             {
                 if (_inputController.IsWallSlideKeyPress)
                 {
-                    if (_surroundController.IsTouchingWall && !_surroundController.IsGrounded && _rigidbody.velocity.y < 0 && _currentWallSlideTimer > 0)
+                    if (_surroundController.IsTouchingWallMid && !_surroundController.IsGrounded && _rigidbody.velocity.y < 0 && _currentWallSlideTimer > 0)
                     {
                         _currentWallSlideTimer -= Time.deltaTime;
                         return true;
@@ -77,7 +77,7 @@ namespace Player.Abilities
                 _currentWallSlideTimer = wallSlideTimer;
             }
 
-            if (!_surroundController.IsTouchingWall)
+            if (!_surroundController.IsTouchingWallMid)
                 _currentWallSlideTimer = wallSlideTimer;
         }
 

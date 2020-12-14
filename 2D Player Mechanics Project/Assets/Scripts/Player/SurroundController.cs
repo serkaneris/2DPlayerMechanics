@@ -10,11 +10,16 @@ namespace Player
         public Transform groundCheckTransform;
         public float groundCheckRadius = 0.2f;
 
-        public Transform wallCheckTransform;
+
+        
+        
+        public Transform wallCheckTransformTop;
+        public Transform wallCheckTransformMid;
         public float wallCheckDistance = 0.4f;
 
         public bool IsGrounded;
-        public bool IsTouchingWall;
+        public bool IsTouchingWallMid;
+        public bool IsTouchingWallTop;
 
 
         void Update()
@@ -29,13 +34,15 @@ namespace Player
         }
         private void WallTouchControl()
         {
-            IsTouchingWall = Physics2D.Raycast(wallCheckTransform.position, transform.right, wallCheckDistance, whatIsGroundLayer);
+            IsTouchingWallMid = Physics2D.Raycast(wallCheckTransformMid.position, transform.right, wallCheckDistance, whatIsGroundLayer);
+            IsTouchingWallTop = Physics2D.Raycast(wallCheckTransformTop.position, transform.right, wallCheckDistance, whatIsGroundLayer);
         }
 
         private void OnDrawGizmos()
         {
             Gizmos.DrawWireSphere(groundCheckTransform.position, groundCheckRadius);
-            Gizmos.DrawLine(wallCheckTransform.position, new Vector3(wallCheckTransform.position.x + wallCheckDistance, wallCheckTransform.position.y, wallCheckTransform.position.z));
+            Gizmos.DrawLine(wallCheckTransformMid.position, new Vector3(wallCheckTransformMid.position.x + wallCheckDistance, wallCheckTransformMid.position.y, wallCheckTransformMid.position.z));
+            Gizmos.DrawLine(wallCheckTransformTop.position, new Vector3(wallCheckTransformTop.position.x + wallCheckDistance, wallCheckTransformTop.position.y, wallCheckTransformTop.position.z));
         }
     }
 }
