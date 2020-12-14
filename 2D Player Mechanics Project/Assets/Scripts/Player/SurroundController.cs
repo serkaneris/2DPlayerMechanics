@@ -4,8 +4,12 @@ using UnityEngine;
 
 namespace Player
 {
+    [RequireComponent(typeof(Rigidbody2D))]
     public class SurroundController : MonoBehaviour
     {
+
+        private Rigidbody2D _rigidbody;
+
         public LayerMask whatIsGroundLayer;
         public Transform groundCheckTransform;
         public Transform upGroundCheckTransform;
@@ -22,10 +26,21 @@ namespace Player
         public bool IsTouchingWallMid;
         public bool IsTouchingWallBottom;
 
+
+        public float gravityScale = 4;
+
+        void Start()
+        {
+            _rigidbody = GetComponent<Rigidbody2D>();
+            
+            _rigidbody.gravityScale = gravityScale;
+        }
+
         void Update()
         {
             GroundTouchControl();
             WallTouchControl();
+            ResetStates();
         }
 
         private void GroundTouchControl()
@@ -38,6 +53,14 @@ namespace Player
             IsTouchingWallTop = Physics2D.Raycast(wallCheckTransformTop.position, transform.right, wallCheckDistance, whatIsGroundLayer);
             IsTouchingWallMid = Physics2D.Raycast(wallCheckTransformMid.position, transform.right, wallCheckDistance, whatIsGroundLayer);
             IsTouchingWallBottom = Physics2D.Raycast(wallCheckTransformBottom.position, transform.right, wallCheckDistance, whatIsGroundLayer);
+        }
+
+        private void ResetStates()
+        {
+            if (IsGrounded)
+            {
+                _rigidbody.gravityScale = gravityScale;
+            }
         }
 
         private void OnDrawGizmos()

@@ -15,7 +15,6 @@ namespace Player.Abilities
 
         public bool canGlide = true;
         public float glideAmount = 4f;
-        public float gravityScale = 4;
         public float gliderTimer = 2f;
         private float _currentGliderTimer;
 
@@ -25,7 +24,6 @@ namespace Player.Abilities
             _inputController = GetComponent<InputController>();
             _surroundController = GetComponent<SurroundController>();
 
-            _rigidbody.gravityScale = gravityScale;
             _currentGliderTimer = gliderTimer;
         }
 
@@ -57,7 +55,6 @@ namespace Player.Abilities
             if (_surroundController.IsGrounded)
             {
                 _currentGliderTimer = gliderTimer; //Glider Timer reset
-                _rigidbody.gravityScale = gravityScale;
             }
         }
 

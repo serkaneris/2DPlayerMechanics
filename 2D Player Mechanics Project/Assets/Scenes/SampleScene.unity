@@ -139,6 +139,8 @@ GameObject:
   - component: {fileID: 113509163}
   - component: {fileID: 113509162}
   - component: {fileID: 113509161}
+  - component: {fileID: 113509166}
+  - component: {fileID: 113509165}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -319,6 +321,7 @@ MonoBehaviour:
   IsTouchingWallTop: 0
   IsTouchingWallMid: 0
   IsTouchingWallBottom: 0
+  gravityScale: 4
 --- !u!114 &113509164
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -333,6 +336,35 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stompKey: 257
   wallSlideKey: 258
+--- !u!114 &113509165
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 113509156}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c625c0de52db3e54e804d17a02df2eda, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canStomp: 1
+  stompGravityScale: 40
+--- !u!114 &113509166
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 113509156}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e22c016e580303439255f56f613bc11, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canWallSlide: 1
+  wallSlideSpeed: 3
+  wallSlideTimer: 1
 --- !u!1 &213558464
 GameObject:
   m_ObjectHideFlags: 0
