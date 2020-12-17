@@ -52,8 +52,8 @@ namespace Player.Abilities
         {
             if (canWallSlide)
             {
-                if (_inputController.IsWallSlideKeyPress)
-                {
+                //if (_inputController.IsWallSlideKeyPress)
+                //{
                     if (_surroundController.IsTouchingWallMid && !_surroundController.IsGrounded && _rigidbody.velocity.y < 0 && _currentWallSlideTimer > 0)
                     {
                         _currentWallSlideTimer -= Time.deltaTime;
@@ -61,9 +61,9 @@ namespace Player.Abilities
                     }
                     else
                         return false;
-                }
-                else
-                    return false;
+                //}
+                //else
+                //    return false;
             }
             else
                 return false;

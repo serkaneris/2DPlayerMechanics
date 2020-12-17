@@ -39,7 +39,7 @@ namespace Player.Abilities
        
         private void Move()
         {
-            if(!_surroundController.IsTouchingWallMid)
+            if(!_surroundController.IsTouchingWallBottom && !_surroundController.IsTouchingWallMid &&  !_surroundController.IsTouchingWallTop)
                 _rigidbody.velocity = new Vector2(_inputController.HorizontalVal * speed, _rigidbody.velocity.y);
         }
         

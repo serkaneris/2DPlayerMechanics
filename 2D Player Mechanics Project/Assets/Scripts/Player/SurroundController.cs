@@ -10,24 +10,31 @@ namespace Player
 
         private Rigidbody2D _rigidbody;
 
+        public float gravityScale = 4;
+
+        [Header("For Ground Check")]
         public LayerMask whatIsGroundLayer;
         public Transform groundCheckTransform;
         public Transform upGroundCheckTransform;
         public float groundCheckRadius = 0.2f;
 
+        [Header("For Wall Check")]
+        public LayerMask whatIsWallLayer;
         public Transform wallCheckTransformTop;
         public Transform wallCheckTransformMid;
         public Transform wallCheckTransformBottom;
         public float wallCheckDistance = 0.4f;
 
+        [Header("For Debuging")]
         public bool IsGrounded;
         public bool IsUpGrounded;
         public bool IsTouchingWallTop;
         public bool IsTouchingWallMid;
         public bool IsTouchingWallBottom;
+       
 
 
-        public float gravityScale = 4;
+        
 
         void Start()
         {
@@ -48,11 +55,12 @@ namespace Player
             IsGrounded = Physics2D.OverlapCircle(groundCheckTransform.position, groundCheckRadius, whatIsGroundLayer);
             IsUpGrounded = Physics2D.OverlapCircle(upGroundCheckTransform.position, groundCheckRadius, whatIsGroundLayer);
         }
+
         private void WallTouchControl()
         {
-            IsTouchingWallTop = Physics2D.Raycast(wallCheckTransformTop.position, transform.right, wallCheckDistance, whatIsGroundLayer);
-            IsTouchingWallMid = Physics2D.Raycast(wallCheckTransformMid.position, transform.right, wallCheckDistance, whatIsGroundLayer);
-            IsTouchingWallBottom = Physics2D.Raycast(wallCheckTransformBottom.position, transform.right, wallCheckDistance, whatIsGroundLayer);
+            IsTouchingWallTop = Physics2D.Raycast(wallCheckTransformTop.position, transform.right, wallCheckDistance, whatIsWallLayer);
+            IsTouchingWallMid = Physics2D.Raycast(wallCheckTransformMid.position, transform.right, wallCheckDistance, whatIsWallLayer);
+            IsTouchingWallBottom = Physics2D.Raycast(wallCheckTransformBottom.position, transform.right, wallCheckDistance, whatIsWallLayer);
         }
 
         private void ResetStates()
