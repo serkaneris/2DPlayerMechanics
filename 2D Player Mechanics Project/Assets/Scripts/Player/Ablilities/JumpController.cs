@@ -41,15 +41,18 @@ namespace Player.Abilities
                 if (_surroundController.isBottomCollision)
                 {
                     //power Jump
-                    if (canPowerJump && _inputController.VerticalVal < 0) //&& _inputController.HorizontalVal == 0) //koşarak power jump yapabilsin diye kapattım
+                    if (canPowerJump && _inputController.VerticalVal < 0)
+                    {
                         ApplyJump(powerJumpForce);
-                    //standart Jump
+                    }
+                    //Jump
                     else
+                    {
                         ApplyJump(jumpForce);
+                    }
                 }
-                
-                
             }
+            
 
         }
         private void ApplyJump(float power)

@@ -8,7 +8,6 @@ namespace Player
     [RequireComponent(typeof(Rigidbody2D))]
     public class SurroundController : MonoBehaviour
     {
-
         private Rigidbody2D _rigidbody;
 
         public float gravityScale = 4;
@@ -20,16 +19,16 @@ namespace Player
         public float topBottomCheckRadius = 0.6f;
 
         //public LayerMask whatIsSideLayer;
-        public Transform sideTopCheckTransform;
+        //public Transform sideTopCheckTransform;
         public Transform sideMidCheckTransform;
-        public Transform sideBottomCheckTransform;
+        //public Transform sideBottomCheckTransform;
         public float sideCheckDistance = 0.8f;
 
         [Header("For Debuging")]
         public bool isTopCollision;
-        public bool isSideTopCollision; 
+        //public bool isSideTopCollision; 
         public bool isSideMidCollision;
-        public bool isSideBottomCollision;
+        //public bool isSideBottomCollision;
         public bool isBottomCollision;
 
         public GroundType groundType;
@@ -49,7 +48,7 @@ namespace Player
         {
             TopBottomCollisions();
             SideCollisions();
-            ResetStates();
+            CheckResetStates();
         }
 
         private void TopBottomCollisions()
@@ -69,17 +68,18 @@ namespace Player
 
         private void SideCollisions()
         {
-            isSideTopCollision = Physics2D.Raycast(sideTopCheckTransform.position, transform.right, sideCheckDistance, LevelGeometryLayer);
+            //isSideTopCollision = Physics2D.Raycast(sideTopCheckTransform.position, transform.right, sideCheckDistance, LevelGeometryLayer);
             isSideMidCollision = Physics2D.Raycast(sideMidCheckTransform.position, transform.right, sideCheckDistance, LevelGeometryLayer);
-            isSideBottomCollision = Physics2D.Raycast(sideBottomCheckTransform.position, transform.right, sideCheckDistance, LevelGeometryLayer);
+            //isSideBottomCollision = Physics2D.Raycast(sideBottomCheckTransform.position, transform.right, sideCheckDistance, LevelGeometryLayer);
         }
 
-        private void ResetStates()
+        private void CheckResetStates()
         {
             if (isBottomCollision)
             {
                 _rigidbody.gravityScale = gravityScale;
             }
+            
         }
 
         private void OnDrawGizmos()
@@ -87,9 +87,9 @@ namespace Player
             Gizmos.DrawWireSphere(bottomCheckTransform.position, topBottomCheckRadius);
             Gizmos.DrawWireSphere(topCheckTransform.position, topBottomCheckRadius);
 
-            Gizmos.DrawLine(sideTopCheckTransform.position, new Vector3(sideTopCheckTransform.position.x + sideCheckDistance, sideTopCheckTransform.position.y, sideTopCheckTransform.position.z));
+            //Gizmos.DrawLine(sideTopCheckTransform.position, new Vector3(sideTopCheckTransform.position.x + sideCheckDistance, sideTopCheckTransform.position.y, sideTopCheckTransform.position.z));
             Gizmos.DrawLine(sideMidCheckTransform.position, new Vector3(sideMidCheckTransform.position.x + sideCheckDistance, sideMidCheckTransform.position.y, sideMidCheckTransform.position.z));
-            Gizmos.DrawLine(sideBottomCheckTransform.position, new Vector3(sideBottomCheckTransform.position.x + sideCheckDistance, sideBottomCheckTransform.position.y, sideBottomCheckTransform.position.z));
+            //Gizmos.DrawLine(sideBottomCheckTransform.position, new Vector3(sideBottomCheckTransform.position.x + sideCheckDistance, sideBottomCheckTransform.position.y, sideBottomCheckTransform.position.z));
         }
 
         private GroundType DetermineGroundType(Collider2D collider)
