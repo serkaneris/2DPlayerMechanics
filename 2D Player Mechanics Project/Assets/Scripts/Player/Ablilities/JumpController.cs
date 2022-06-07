@@ -17,6 +17,8 @@ namespace Player.Abilities
 
         public bool canPowerJump = true;
         public float powerJumpForce = 30;
+        
+        
 
         // Start is called before the first frame update
         void Start()
@@ -36,15 +38,17 @@ namespace Player.Abilities
         {
             if (_inputController.IsJumpPress)
             {
-                if (_surroundController.IsGrounded)
+                if (_surroundController.isBottomCollision)
                 {
                     //power Jump
-                    if (canPowerJump && _inputController.VerticalVal < 0 && _inputController.HorizontalVal == 0)
+                    if (canPowerJump && _inputController.VerticalVal < 0) //&& _inputController.HorizontalVal == 0) //koşarak power jump yapabilsin diye kapattım
                         ApplyJump(powerJumpForce);
                     //standart Jump
                     else
                         ApplyJump(jumpForce);
                 }
+                
+                
             }
 
         }

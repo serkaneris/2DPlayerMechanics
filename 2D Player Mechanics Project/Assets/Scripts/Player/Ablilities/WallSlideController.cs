@@ -32,8 +32,12 @@ namespace Player.Abilities
         // Update is called once per frame
         void Update()
         {
-            WallSlide();
-            CheckWallSlideStateAndReset();
+            if(canWallSlide)
+            {
+                WallSlide();
+                CheckWallSlideStateAndReset();
+            }
+            
         }
 
         private void WallSlide()
@@ -50,34 +54,34 @@ namespace Player.Abilities
 
         public bool IsWallSliding()
         {
-            if (canWallSlide)
-            {
-                //if (_inputController.IsWallSlideKeyPress)
-                //{
-                    if (_surroundController.IsTouchingWallMid && !_surroundController.IsGrounded && _rigidbody.velocity.y < 0 && _currentWallSlideTimer > 0)
-                    {
-                        _currentWallSlideTimer -= Time.deltaTime;
-                        return true;
-                    }
-                    else
-                        return false;
-                //}
-                //else
-                //    return false;
-            }
-            else
-                return false;
+
+            //if (_inputController.IsWallSlideKeyPress)
+            //{
+            //if (_surroundController.isSideMidCollision && !_surroundController.isBottomCollision && _rigidbody.velocity.y < 0 && _inputController.VerticalVal > 0.5f && _currentWallSlideTimer > 0)
+                if (_surroundController.isSideMidCollision && !_surroundController.isBottomCollision && _rigidbody.velocity.y < 0 && Mathf.Abs(_inputController.HorizontalVal) > 0.5f && _currentWallSlideTimer > 0)
+                {
+                    _currentWallSlideTimer -= Time.deltaTime;
+                    return true;
+                }
+                else
+                    return false;
+            //}
+            //else
+            //{
+            //    return false;
+            //}
+            
 
         }
 
         private void CheckWallSlideStateAndReset()
         {
-            if (_surroundController.IsGrounded)
+            if (_surroundController.isBottomCollision)
             {
                 _currentWallSlideTimer = wallSlideTimer;
             }
 
-            if (!_surroundController.IsTouchingWallMid)
+            if (!_surroundController.isSideMidCollision)
                 _currentWallSlideTimer = wallSlideTimer;
         }
 

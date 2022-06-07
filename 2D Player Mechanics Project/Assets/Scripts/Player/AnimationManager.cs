@@ -39,7 +39,7 @@ namespace Player
         {
             _animator.SetBool("isWallSliding", _wallSlideController.IsWallSliding());
             _animator.SetBool("isHorizontalMovement", _inputController.IsHorizontalMovement);
-            _animator.SetBool("isGrounded", _surroundController.IsGrounded);
+            _animator.SetBool("isBottomCollision", _surroundController.isBottomCollision);
             _animator.SetFloat("yVelocity", _rigidbody.velocity.y);
         }
     }

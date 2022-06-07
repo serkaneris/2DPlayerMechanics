@@ -39,7 +39,7 @@ namespace Player.Abilities
         {
             if (_inputController.IsJumpPress)
             {
-                if (!_surroundController.IsGrounded)
+                if (!_surroundController.isBottomCollision)
                 {
                     if (remainingFlapAmount > 0)
                     {
@@ -53,7 +53,7 @@ namespace Player.Abilities
 
         private void CheckFlapStateAndReset()
         {
-            if (_surroundController.IsGrounded)
+            if (_surroundController.isBottomCollision)
                 remainingFlapAmount = flapAmount;
         }
 

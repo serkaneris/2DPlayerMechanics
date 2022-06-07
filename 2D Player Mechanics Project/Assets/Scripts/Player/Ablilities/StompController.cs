@@ -34,7 +34,7 @@ namespace Player.Abilities
         {
             if (canStomp)
             {
-                if (!_surroundController.IsGrounded && _inputController.IsStompKeyPress)
+                if (!_surroundController.isBottomCollision && _inputController.IsStompKeyPress)
                 {
                     _rigidbody.gravityScale = stompGravityScale;
                 }

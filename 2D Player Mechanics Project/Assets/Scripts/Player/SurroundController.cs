@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using GlobalTypes;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -12,29 +13,30 @@ namespace Player
 
         public float gravityScale = 4;
 
-        [Header("For Ground Check")]
-        public LayerMask whatIsGroundLayer;
-        public Transform groundCheckTransform;
-        public Transform upGroundCheckTransform;
-        public float groundCheckRadius = 0.2f;
+        [Header("For Collision Check")]
+        public LayerMask LevelGeometryLayer;
+        public Transform topCheckTransform;
+        public Transform bottomCheckTransform;
+        public float topBottomCheckRadius = 0.6f;
 
-        [Header("For Wall Check")]
-        public LayerMask whatIsWallLayer;
-        public Transform wallCheckTransformTop;
-        public Transform wallCheckTransformMid;
-        public Transform wallCheckTransformBottom;
-        public float wallCheckDistance = 0.4f;
+        //public LayerMask whatIsSideLayer;
+        public Transform sideTopCheckTransform;
+        public Transform sideMidCheckTransform;
+        public Transform sideBottomCheckTransform;
+        public float sideCheckDistance = 0.8f;
 
         [Header("For Debuging")]
-        public bool IsGrounded;
-        public bool IsUpGrounded;
-        public bool IsTouchingWallTop;
-        public bool IsTouchingWallMid;
-        public bool IsTouchingWallBottom;
-       
+        public bool isTopCollision;
+        public bool isSideTopCollision; 
+        public bool isSideMidCollision;
+        public bool isSideBottomCollision;
+        public bool isBottomCollision;
+
+        public GroundType groundType;
 
 
-        
+
+
 
         void Start()
         {
@@ -45,27 +47,36 @@ namespace Player
 
         void Update()
         {
-            GroundTouchControl();
-            WallTouchControl();
+            TopBottomCollisions();
+            SideCollisions();
             ResetStates();
         }
 
-        private void GroundTouchControl()
+        private void TopBottomCollisions()
         {
-            IsGrounded = Physics2D.OverlapCircle(groundCheckTransform.position, groundCheckRadius, whatIsGroundLayer);
-            IsUpGrounded = Physics2D.OverlapCircle(upGroundCheckTransform.position, groundCheckRadius, whatIsGroundLayer);
+            Collider2D collider2DBottom = Physics2D.OverlapCircle(bottomCheckTransform.position, topBottomCheckRadius, LevelGeometryLayer);
+            isBottomCollision = collider2DBottom;
+            if(isBottomCollision)
+            {
+                groundType = DetermineGroundType(collider2DBottom);
+            }
+            else
+            {
+                groundType = GroundType.None;
+            }
+            isTopCollision = Physics2D.OverlapCircle(topCheckTransform.position, topBottomCheckRadius, LevelGeometryLayer);
         }
 
-        private void WallTouchControl()
+        private void SideCollisions()
         {
-            IsTouchingWallTop = Physics2D.Raycast(wallCheckTransformTop.position, transform.right, wallCheckDistance, whatIsWallLayer);
-            IsTouchingWallMid = Physics2D.Raycast(wallCheckTransformMid.position, transform.right, wallCheckDistance, whatIsWallLayer);
-            IsTouchingWallBottom = Physics2D.Raycast(wallCheckTransformBottom.position, transform.right, wallCheckDistance, whatIsWallLayer);
+            isSideTopCollision = Physics2D.Raycast(sideTopCheckTransform.position, transform.right, sideCheckDistance, LevelGeometryLayer);
+            isSideMidCollision = Physics2D.Raycast(sideMidCheckTransform.position, transform.right, sideCheckDistance, LevelGeometryLayer);
+            isSideBottomCollision = Physics2D.Raycast(sideBottomCheckTransform.position, transform.right, sideCheckDistance, LevelGeometryLayer);
         }
 
         private void ResetStates()
         {
-            if (IsGrounded)
+            if (isBottomCollision)
             {
                 _rigidbody.gravityScale = gravityScale;
             }
@@ -73,12 +84,25 @@ namespace Player
 
         private void OnDrawGizmos()
         {
-            Gizmos.DrawWireSphere(groundCheckTransform.position, groundCheckRadius);
-            Gizmos.DrawWireSphere(upGroundCheckTransform.position, groundCheckRadius);
+            Gizmos.DrawWireSphere(bottomCheckTransform.position, topBottomCheckRadius);
+            Gizmos.DrawWireSphere(topCheckTransform.position, topBottomCheckRadius);
 
-            Gizmos.DrawLine(wallCheckTransformTop.position, new Vector3(wallCheckTransformTop.position.x + wallCheckDistance, wallCheckTransformTop.position.y, wallCheckTransformTop.position.z));
-            Gizmos.DrawLine(wallCheckTransformMid.position, new Vector3(wallCheckTransformMid.position.x + wallCheckDistance, wallCheckTransformMid.position.y, wallCheckTransformMid.position.z));
-            Gizmos.DrawLine(wallCheckTransformBottom.position, new Vector3(wallCheckTransformBottom.position.x + wallCheckDistance, wallCheckTransformBottom.position.y, wallCheckTransformBottom.position.z));
+            Gizmos.DrawLine(sideTopCheckTransform.position, new Vector3(sideTopCheckTransform.position.x + sideCheckDistance, sideTopCheckTransform.position.y, sideTopCheckTransform.position.z));
+            Gizmos.DrawLine(sideMidCheckTransform.position, new Vector3(sideMidCheckTransform.position.x + sideCheckDistance, sideMidCheckTransform.position.y, sideMidCheckTransform.position.z));
+            Gizmos.DrawLine(sideBottomCheckTransform.position, new Vector3(sideBottomCheckTransform.position.x + sideCheckDistance, sideBottomCheckTransform.position.y, sideBottomCheckTransform.position.z));
+        }
+
+        private GroundType DetermineGroundType(Collider2D collider)
+        {
+            if (collider.GetComponent<GroundEffector>())
+            {
+                GroundEffector groundEffector = collider.GetComponent<GroundEffector>();
+                return groundEffector.groundType;
+            }
+            else
+            {
+                return GroundType.LevelGeometry;
+            }
         }
     }
 }

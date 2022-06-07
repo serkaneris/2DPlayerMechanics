@@ -15,10 +15,12 @@ namespace Player
 
         public KeyCode jumpKey = KeyCode.Space;
         public KeyCode stompKey = KeyCode.Keypad1;
-        //public KeyCode wallSlideKey = KeyCode.Keypad2; //Wall slide key changed by right left key
+        //public KeyCode glideKey = KeyCode.Mouse1;
+        public KeyCode wallSlideKey = KeyCode.Mouse1; //Wall slide key changed by right left key
 
         public bool IsStompKeyPress { get; private set; }
         public bool IsWallSlideKeyPress { get; private set; }
+        public bool isGlideKeyPress { get;  set; }
 
        
         // Update is called once per frame
@@ -28,7 +30,8 @@ namespace Player
             VerticalVal = Input.GetAxis("Vertical");
             IsJumpPress = Input.GetButtonDown("Jump") || Input.GetKeyDown(jumpKey);
             IsStompKeyPress = Input.GetKeyDown(stompKey);
-            //IsWallSlideKeyPress = Input.GetKey(wallSlideKey);
+            //isGlideKeyPress = Input.GetKey(glideKey);
+            IsWallSlideKeyPress = Input.GetKey(wallSlideKey);
 
 
             CheckHorizontalMovement();

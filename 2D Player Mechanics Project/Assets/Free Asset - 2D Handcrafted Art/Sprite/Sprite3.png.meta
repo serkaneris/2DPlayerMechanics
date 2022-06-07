@@ -135,6 +135,7 @@ TextureImporter:
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
+  ignoreMasterTextureLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -143,9 +144,9 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: -1
-    aniso: -1
-    mipBias: -100
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
     wrapU: 1
     wrapV: 1
     wrapW: 1
@@ -166,6 +167,8 @@ TextureImporter:
   textureType: 8
   textureShape: 1
   singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
   maxTextureSizeSet: 0
   compressionQualitySet: 0
   textureFormatSet: 0
@@ -986,6 +989,44 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    nameFileIdTable:
+      Sprite3_32: 21300064
+      Sprite3_15: 21300030
+      Sprite3_22: 21300044
+      Sprite3_1: 21300002
+      Sprite3_28: 21300056
+      Sprite3_35: 21300070
+      Sprite3_5: 21300010
+      Sprite3_4: 21300008
+      Sprite3_18: 21300036
+      Sprite3_14: 21300028
+      Sprite3_36: 21300072
+      Sprite3_30: 21300060
+      Sprite3_11: 21300022
+      Sprite3_0: 21300000
+      Sprite3_29: 21300058
+      Sprite3_16: 21300032
+      Sprite3_12: 21300024
+      Sprite3_6: 21300012
+      Sprite3_10: 21300020
+      Sprite3_7: 21300014
+      Sprite3_27: 21300054
+      Sprite3_25: 21300050
+      Sprite3_19: 21300038
+      Sprite3_21: 21300042
+      Sprite3_26: 21300052
+      Sprite3_34: 21300068
+      Sprite3_2: 21300004
+      Sprite3_8: 21300016
+      Sprite3_9: 21300018
+      Sprite3_24: 21300048
+      Sprite3_3: 21300006
+      Sprite3_33: 21300066
+      Sprite3_31: 21300062
+      Sprite3_20: 21300040
+      Sprite3_13: 21300026
+      Sprite3_17: 21300034
+      Sprite3_23: 21300046
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

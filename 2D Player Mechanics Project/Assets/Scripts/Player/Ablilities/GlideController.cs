@@ -30,29 +30,37 @@ namespace Player.Abilities
         // Update is called once per frame
         void Update()
         {
-            Glide();
-            CheckGlideStateAndReset();
+            if (canGlide)
+            {
+                Glide();
+                CheckGlideStateAndReset();
+            }
+            
         }
 
         private void Glide()
         {
-            if (canGlide)
+            
+            //süzülme için yere temas olmayacak ve yan temas olmayacak
+            if (!_surroundController.isBottomCollision && !_surroundController.isSideMidCollision && _inputController.VerticalVal > 0.5f && _rigidbody.velocity.y < 0.1f)
+            //if (!_surroundController.isBottomCollision && !_surroundController.isSideMidCollision && _inputController.isGlideKeyPress && _rigidbody.velocity.y < 0.1f)
             {
-                if (!_surroundController.IsGrounded && _inputController.VerticalVal > 0.5f && _rigidbody.velocity.y < 0.2f)
+                if (_currentGliderTimer > 0)
                 {
-                    if (_currentGliderTimer > 0)
-                    {
-                        _rigidbody.velocity = new Vector2(_rigidbody.velocity.x, Mathf.Sign(_rigidbody.velocity.y) * glideAmount);
-                        _currentGliderTimer -= Time.deltaTime;
-                    }
-
+                    _rigidbody.velocity = new Vector2(_rigidbody.velocity.x, Mathf.Sign(_rigidbody.velocity.y) * glideAmount);
+                    _currentGliderTimer -= Time.deltaTime;
                 }
+                else
+                {
+                    _inputController.isGlideKeyPress = false;
+                }
+
             }
         }
 
         private void CheckGlideStateAndReset()
         {
-            if (_surroundController.IsGrounded)
+            if (_surroundController.isBottomCollision)
             {
                 _currentGliderTimer = gliderTimer; //Glider Timer reset
             }
