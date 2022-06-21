@@ -33,8 +33,12 @@ namespace Player
         {
             _animator.SetBool("isRunning", _playerStates.IsRunning);
             _animator.SetBool("isGrounded", _playerStates.IsBottomCollision);
+            _animator.SetBool("isWallSliding", _playerStates.IsWallSliding);
+            _animator.SetBool("isCrouching", _playerStates.IsCrouching);
+            _animator.SetBool("isCrouchMoving", _playerStates.IsCrouchMoving);
             _animator.SetFloat("xVelocity", _rigidbody.velocity.x);
             _animator.SetFloat("yVelocity", _rigidbody.velocity.y);
+
             ////Grounded
             //if (_surroundController.isBottomCollision)
             //{

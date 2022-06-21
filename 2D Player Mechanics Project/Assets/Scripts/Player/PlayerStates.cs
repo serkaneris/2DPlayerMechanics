@@ -10,8 +10,9 @@ public class PlayerStates : MonoBehaviour
     [field: Header("---PLAYER STATES ---")]
     [field: SerializeField] public bool IsRunning { get; set; }
     [field: SerializeField] public bool IsFacingRight { get; set; } = true;
-    [field: SerializeField] public bool IsDucking { get; set; }
-    [field: SerializeField] public bool IsCreeping { get; set; }
+    [field: SerializeField] public bool IsCrouching { get; set; }
+    [field: SerializeField] public bool IsCrouchMoving { get; set; }
+    [field: SerializeField] public bool IsWallSliding { get; set; }
     //[field: SerializeField] public bool IsInAir { get; set; }
     //[field: SerializeField] public bool IsGrounded { get; set; }
     //[field: SerializeField] public bool IsJumping { get; set; }

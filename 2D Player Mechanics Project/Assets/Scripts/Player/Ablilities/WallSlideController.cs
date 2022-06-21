@@ -43,8 +43,13 @@ namespace Player.Abilities
                 if (_rigidbody.velocity.y < -wallSlideSpeed)
                 {
                     _rigidbody.velocity = new Vector2(_rigidbody.velocity.x, -wallSlideSpeed);
+                    _playerStates.IsWallSliding = true;
                 }
 
+            }
+            else
+            {
+                _playerStates.IsWallSliding = false;
             }
         }
 

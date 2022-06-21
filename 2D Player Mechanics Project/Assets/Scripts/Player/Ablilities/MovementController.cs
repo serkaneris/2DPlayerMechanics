@@ -17,15 +17,15 @@ namespace Player.Abilities
         //player ability toggles
         public float speed = 10f;
         public float dashSpeed = 100f;
-        public float creepSpeed = 5f;
+        public float crouchMoveSpeed = 5f;
 
 
 
         //For Creeping and Ducking 
         private CapsuleCollider2D _capsuleCollider;
+        private Vector2 _originalColliderOffset;
         private Vector2 _originalColliderSize;
-        //TODO: later remove this
-        private SpriteRenderer _spriteRenderer;
+       
 
 
         void Start()
@@ -33,8 +33,9 @@ namespace Player.Abilities
             _playerStates = GetComponent<PlayerStates>();
             _rigidbody = GetComponent<Rigidbody2D>();
             _capsuleCollider = GetComponent<CapsuleCollider2D>();
+            _originalColliderOffset = _capsuleCollider.offset;
             _originalColliderSize = _capsuleCollider.size;
-            _spriteRenderer =  GetComponent<SpriteRenderer>();
+           
         }
 
         private void Update()
@@ -56,27 +57,28 @@ namespace Player.Abilities
         {
             if (!_playerStates.IsSideMidCollision)
             {
-                if (_playerStates.IsDucking)
+                if (_playerStates.IsCrouching)
                 {
-                    _rigidbody.velocity = new Vector2(_playerStates.XInputVal * creepSpeed, _rigidbody.velocity.y);
-                    
-                    if(Mathf.Abs(_playerStates.XInputVal) > 0f)
-                        _playerStates.IsCreeping = true;
+                    _rigidbody.velocity = new Vector2(_playerStates.XInputVal * crouchMoveSpeed, _rigidbody.velocity.y);
+
+                    if (Mathf.Abs(_playerStates.XInputVal) > 0f)
+                    {
+                        _playerStates.IsCrouchMoving = true;
+                        _playerStates.IsRunning = false;
+                    }
                     else
-                        _playerStates.IsCreeping = false; 
-                }
-                if (_playerStates.IsDashKeyPress)
-                {
-                    Debug.Log("Dash!!");
-                    _rigidbody.velocity = new Vector2(_playerStates.XInputVal * dashSpeed, _rigidbody.velocity.y);
+                        _playerStates.IsCrouchMoving = false; 
                 }
                 else
                 {
                     _rigidbody.velocity = new Vector2(_playerStates.XInputVal * speed, _rigidbody.velocity.y);
-                    
-
-                   
                 }
+
+                //if (_playerStates.IsDashKeyPress)
+                //{
+                //    Debug.Log("Dash!!");
+                //    _rigidbody.velocity = new Vector2(_playerStates.XInputVal * dashSpeed, _rigidbody.velocity.y);
+                //}
 
             }
         }
@@ -85,21 +87,23 @@ namespace Player.Abilities
         {
             if(_playerStates.IsBottomCollision && _playerStates.YInputVal < 0f)
             {
-                if(!_playerStates.IsDucking && !_playerStates.IsCreeping)
+                if(!_playerStates.IsCrouching && !_playerStates.IsCrouchMoving)
                 {
-                    _capsuleCollider.size = new Vector2(_capsuleCollider.size.x, _capsuleCollider.size.y / 2);
-                    transform.position = new Vector2(transform.position.x, transform.position.y - (_originalColliderSize.y / 4));
-                    _playerStates.IsDucking = true;
-                    _spriteRenderer.sprite = Resources.Load<Sprite>("Charecter2");
+                    
+                    _capsuleCollider.offset = new Vector2(_capsuleCollider.offset.x, -0.5f);
+                    _capsuleCollider.size = new Vector2(_capsuleCollider.size.x, 0.9f);
+                    
+                    _playerStates.IsCrouching = true;
+                  
                 }
             }
-            else if((_playerStates.IsDucking || _playerStates.IsCreeping ) && !_playerStates.IsTopCollision)
+            else if((_playerStates.IsCrouching || _playerStates.IsCrouchMoving) && !_playerStates.IsTopCollision)
             {
+                _capsuleCollider.offset = _originalColliderOffset;
                 _capsuleCollider.size = _originalColliderSize;
-                transform.position = new Vector2(transform.position.x, transform.position.y + (_originalColliderSize.y / 4));
-                _spriteRenderer.sprite = Resources.Load<Sprite>("Charecter1");
-                _playerStates.IsDucking = false;
-                _playerStates.IsCreeping = false;
+                
+                _playerStates.IsCrouching = false;
+                _playerStates.IsCrouchMoving = false;
             }
         }
         
@@ -114,7 +118,8 @@ namespace Player.Abilities
        
         private void CheckRunning()
         {
-            if (Mathf.Abs(_rigidbody.velocity.x) > 0f && _rigidbody.velocity.y < 0.01f)
+            //todo: yukari tusu basili iken runnig olmuyor
+            if (Mathf.Abs(_rigidbody.velocity.x) > 0f && _rigidbody.velocity.y < 0.01f && _playerStates.IsBottomCollision && !_playerStates.IsCrouching)
             {
                 _playerStates.IsRunning = true;
             }
