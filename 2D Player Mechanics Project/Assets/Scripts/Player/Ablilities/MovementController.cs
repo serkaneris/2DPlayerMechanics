@@ -4,26 +4,22 @@ using UnityEngine;
 
 namespace Player.Abilities
 {
+    [RequireComponent(typeof(PlayerStates))]
     [RequireComponent(typeof(Rigidbody2D))]
-    [RequireComponent(typeof(InputController))]
-    [RequireComponent(typeof(SurroundController))]
-
     public class MovementController : MonoBehaviour
     {
+        private PlayerStates _playerStates;
+
         private Rigidbody2D _rigidbody;
-        private InputController _inputController;
-        private SurroundController _surroundController;
+       
         
 
         //player ability toggles
         public float speed = 10f;
+        public float dashSpeed = 100f;
         public float creepSpeed = 5f;
 
 
-        //player state variables
-        public bool isFacingRight = true;
-        public bool isDucking;
-        public bool isCreeping;
 
         //For Creeping and Ducking 
         private CapsuleCollider2D _capsuleCollider;
@@ -34,14 +30,16 @@ namespace Player.Abilities
 
         void Start()
         {
+            _playerStates = GetComponent<PlayerStates>();
             _rigidbody = GetComponent<Rigidbody2D>();
-            _inputController = GetComponent<InputController>();
-            _surroundController = GetComponent<SurroundController>();
-           
-
             _capsuleCollider = GetComponent<CapsuleCollider2D>();
             _originalColliderSize = _capsuleCollider.size;
             _spriteRenderer =  GetComponent<SpriteRenderer>();
+        }
+
+        private void Update()
+        {
+            CheckRunning();
         }
 
         // Update is called once per frame
@@ -52,62 +50,79 @@ namespace Player.Abilities
             Crouching();
         }
        
+
+        //Todo:Refactoring yapilacak!
         private void Move()
         {
-            if (!_surroundController.isSideMidCollision)
+            if (!_playerStates.IsSideMidCollision)
             {
-                if (isDucking)
+                if (_playerStates.IsDucking)
                 {
-                    _rigidbody.velocity = new Vector2(_inputController.HorizontalVal * creepSpeed, _rigidbody.velocity.y);
+                    _rigidbody.velocity = new Vector2(_playerStates.XInputVal * creepSpeed, _rigidbody.velocity.y);
                     
-                    if(Mathf.Abs(_inputController.HorizontalVal) > 0f)
-                        isCreeping = true;
+                    if(Mathf.Abs(_playerStates.XInputVal) > 0f)
+                        _playerStates.IsCreeping = true;
                     else
-                        isCreeping = false; 
+                        _playerStates.IsCreeping = false; 
+                }
+                if (_playerStates.IsDashKeyPress)
+                {
+                    Debug.Log("Dash!!");
+                    _rigidbody.velocity = new Vector2(_playerStates.XInputVal * dashSpeed, _rigidbody.velocity.y);
                 }
                 else
                 {
-                    _rigidbody.velocity = new Vector2(_inputController.HorizontalVal * speed, _rigidbody.velocity.y);
+                    _rigidbody.velocity = new Vector2(_playerStates.XInputVal * speed, _rigidbody.velocity.y);
+                    
+
+                   
                 }
 
             }
-
-            //if (!_surroundController.isSideBottomCollision && !_surroundController.isSideMidCollision && !_surroundController.isSideTopCollision)
-            //    _rigidbody.velocity = new Vector2(_inputController.HorizontalVal * speed, _rigidbody.velocity.y);
         }
 
         private void Crouching()
         {
-            if(_surroundController.isBottomCollision && _inputController.VerticalVal < 0f)
+            if(_playerStates.IsBottomCollision && _playerStates.YInputVal < 0f)
             {
-                if(!isDucking && !isCreeping)
+                if(!_playerStates.IsDucking && !_playerStates.IsCreeping)
                 {
                     _capsuleCollider.size = new Vector2(_capsuleCollider.size.x, _capsuleCollider.size.y / 2);
                     transform.position = new Vector2(transform.position.x, transform.position.y - (_originalColliderSize.y / 4));
-                    isDucking = true;
-                    _spriteRenderer.sprite = Resources.Load<Sprite>("ArrowRecSmall");
+                    _playerStates.IsDucking = true;
+                    _spriteRenderer.sprite = Resources.Load<Sprite>("Charecter2");
                 }
             }
-            else if((isDucking || isCreeping ) && !_surroundController.isTopCollision)
+            else if((_playerStates.IsDucking || _playerStates.IsCreeping ) && !_playerStates.IsTopCollision)
             {
                 _capsuleCollider.size = _originalColliderSize;
                 transform.position = new Vector2(transform.position.x, transform.position.y + (_originalColliderSize.y / 4));
-                _spriteRenderer.sprite = Resources.Load<Sprite>("ArrowRec");
-                isDucking = false;
-                isCreeping = false;
+                _spriteRenderer.sprite = Resources.Load<Sprite>("Charecter1");
+                _playerStates.IsDucking = false;
+                _playerStates.IsCreeping = false;
             }
         }
         
         private void Flip()
         {
-            if ((_inputController.HorizontalVal > 0 && !isFacingRight) || (_inputController.HorizontalVal < 0 && isFacingRight))
+            if ((_playerStates.XInputVal > 0 && !_playerStates.IsFacingRight) || (_playerStates.XInputVal < 0 && _playerStates.IsFacingRight))
             {
                 transform.Rotate(0f, 180f, 0f);
-                isFacingRight = !isFacingRight;
+                _playerStates.IsFacingRight = !_playerStates.IsFacingRight;
             }
         }
        
-
+        private void CheckRunning()
+        {
+            if (Mathf.Abs(_rigidbody.velocity.x) > 0f && _rigidbody.velocity.y < 0.01f)
+            {
+                _playerStates.IsRunning = true;
+            }
+            else
+            {
+                _playerStates.IsRunning = false;
+            }
+        }
     }
 }
 

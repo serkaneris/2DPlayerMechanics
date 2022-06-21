@@ -4,14 +4,12 @@ using UnityEngine;
 
 namespace Player.Abilities
 {
+    [RequireComponent(typeof(PlayerStates))]
     [RequireComponent(typeof(Rigidbody2D))]
-    [RequireComponent(typeof(InputController))]
-    [RequireComponent(typeof(SurroundController))]
     public class FlapController : MonoBehaviour
     {
+        private PlayerStates _playerStates;
         private Rigidbody2D _rigidbody;
-        private InputController _inputController;
-        private SurroundController _surroundController;
 
         public float flapForce = 20;
         public int flapAmount = 1;
@@ -20,9 +18,8 @@ namespace Player.Abilities
         // Start is called before the first frame update
         void Start()
         {
+            _playerStates = GetComponent<PlayerStates>();
             _rigidbody = GetComponent<Rigidbody2D>();
-            _inputController = GetComponent<InputController>();
-            _surroundController = GetComponent<SurroundController>();
             
 
             remainingFlapAmount = flapAmount;
@@ -37,9 +34,9 @@ namespace Player.Abilities
 
         private void Flap()
         {
-            if (_inputController.IsJumpPress)
+            if (_playerStates.IsJumpPressed)
             {
-                if (!_surroundController.isBottomCollision)
+                if (!_playerStates.IsBottomCollision)
                 {
                     if (remainingFlapAmount > 0)
                     {
@@ -53,7 +50,7 @@ namespace Player.Abilities
 
         private void CheckFlapStateAndReset()
         {
-            if (_surroundController.isBottomCollision)
+            if (_playerStates.IsBottomCollision)
                 remainingFlapAmount = flapAmount;
         }
 

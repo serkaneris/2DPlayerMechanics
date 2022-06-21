@@ -5,9 +5,11 @@ using UnityEngine;
 
 namespace Player
 {
+    [RequireComponent(typeof(PlayerStates))]
     [RequireComponent(typeof(Rigidbody2D))]
     public class SurroundController : MonoBehaviour
     {
+        private PlayerStates _playerStates;
         private Rigidbody2D _rigidbody;
 
         public float gravityScale = 4;
@@ -18,20 +20,13 @@ namespace Player
         public Transform bottomCheckTransform;
         public float topBottomCheckRadius = 0.6f;
 
-        //public LayerMask whatIsSideLayer;
+        
         //public Transform sideTopCheckTransform;
         public Transform sideMidCheckTransform;
         //public Transform sideBottomCheckTransform;
         public float sideCheckDistance = 0.8f;
 
-        [Header("For Debuging")]
-        public bool isTopCollision;
-        //public bool isSideTopCollision; 
-        public bool isSideMidCollision;
-        //public bool isSideBottomCollision;
-        public bool isBottomCollision;
-
-        public GroundType groundType;
+        
 
 
 
@@ -39,6 +34,7 @@ namespace Player
 
         void Start()
         {
+            _playerStates = GetComponent<PlayerStates>();
             _rigidbody = GetComponent<Rigidbody2D>();
             
             _rigidbody.gravityScale = gravityScale;
@@ -54,28 +50,28 @@ namespace Player
         private void TopBottomCollisions()
         {
             Collider2D collider2DBottom = Physics2D.OverlapCircle(bottomCheckTransform.position, topBottomCheckRadius, LevelGeometryLayer);
-            isBottomCollision = collider2DBottom;
-            if(isBottomCollision)
+            _playerStates.IsBottomCollision = collider2DBottom;
+            if(_playerStates.IsBottomCollision)
             {
-                groundType = DetermineGroundType(collider2DBottom);
+                _playerStates.GroundType = DetermineGroundType(collider2DBottom);
             }
             else
             {
-                groundType = GroundType.None;
+                 _playerStates.GroundType = GroundType.None;
             }
-            isTopCollision = Physics2D.OverlapCircle(topCheckTransform.position, topBottomCheckRadius, LevelGeometryLayer);
+            _playerStates.IsTopCollision = Physics2D.OverlapCircle(topCheckTransform.position, topBottomCheckRadius, LevelGeometryLayer);
         }
 
         private void SideCollisions()
         {
             //isSideTopCollision = Physics2D.Raycast(sideTopCheckTransform.position, transform.right, sideCheckDistance, LevelGeometryLayer);
-            isSideMidCollision = Physics2D.Raycast(sideMidCheckTransform.position, transform.right, sideCheckDistance, LevelGeometryLayer);
+            _playerStates.IsSideMidCollision = Physics2D.Raycast(sideMidCheckTransform.position, transform.right, sideCheckDistance, LevelGeometryLayer);
             //isSideBottomCollision = Physics2D.Raycast(sideBottomCheckTransform.position, transform.right, sideCheckDistance, LevelGeometryLayer);
         }
 
         private void CheckResetStates()
         {
-            if (isBottomCollision)
+            if (_playerStates.IsBottomCollision)
             {
                 _rigidbody.gravityScale = gravityScale;
             }

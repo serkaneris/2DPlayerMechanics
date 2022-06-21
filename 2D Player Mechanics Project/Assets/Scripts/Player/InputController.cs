@@ -4,46 +4,46 @@ using UnityEngine;
 
 namespace Player
 {
+    [RequireComponent(typeof(PlayerStates))]
     public class InputController : MonoBehaviour
     {
-        public float HorizontalVal { get; private set; }
-        public bool IsHorizontalMovement { get; private set; }
 
-        public float VerticalVal { get; private set; }
+
+        private PlayerStates _playerStates;
+
+        
 
         public bool IsJumpPress { get; private set; }
 
         public KeyCode jumpKey = KeyCode.Space;
         public KeyCode stompKey = KeyCode.Keypad1;
+        public KeyCode dashKey = KeyCode.LeftShift;
         //public KeyCode glideKey = KeyCode.Mouse1;
-        public KeyCode wallSlideKey = KeyCode.Mouse1; //Wall slide key changed by right left key
+        //public KeyCode wallSlideKey = KeyCode.Mouse1; //Wall slide key changed by right left key
 
-        public bool IsStompKeyPress { get; private set; }
-        public bool IsWallSlideKeyPress { get; private set; }
-        public bool isGlideKeyPress { get;  set; }
+        
 
-       
+        private void Start()
+        {
+            _playerStates = GetComponent<PlayerStates>();
+        }
+
         // Update is called once per frame
         void Update()
         {
-            HorizontalVal = Input.GetAxis("Horizontal");
-            VerticalVal = Input.GetAxis("Vertical");
-            IsJumpPress = Input.GetButtonDown("Jump") || Input.GetKeyDown(jumpKey);
-            IsStompKeyPress = Input.GetKeyDown(stompKey);
+            _playerStates.XInputVal = Input.GetAxis("Horizontal");
+            _playerStates.YInputVal = Input.GetAxis("Vertical");
+            _playerStates.IsJumpPressed = Input.GetButtonDown("Jump") || Input.GetKeyDown(jumpKey);
+            _playerStates.IsStompKeyPress = Input.GetKeyDown(stompKey);
+            _playerStates.IsDashKeyPress = Input.GetKey(dashKey);
             //isGlideKeyPress = Input.GetKey(glideKey);
-            IsWallSlideKeyPress = Input.GetKey(wallSlideKey);
+            //IsWallSlideKeyPress = Input.GetKey(wallSlideKey);
 
 
-            CheckHorizontalMovement();
+           
         }
 
-        private void CheckHorizontalMovement()
-        {
-            if (HorizontalVal > 0 || HorizontalVal < 0)
-                IsHorizontalMovement = true;
-            else
-                IsHorizontalMovement = false;
-        }
+        
     }
 }
 

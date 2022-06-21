@@ -5,14 +5,12 @@ using UnityEngine;
 namespace Player.Abilities
 {
 
+    [RequireComponent(typeof(PlayerStates))]
     [RequireComponent(typeof(Rigidbody2D))]
-    [RequireComponent(typeof(InputController))]
-    [RequireComponent(typeof(SurroundController))]
     public class WallSlideController : MonoBehaviour
     {
+        private PlayerStates _playerStates;
         private Rigidbody2D _rigidbody;
-        private InputController _inputController;
-        private SurroundController _surroundController;
 
         public bool canWallSlide = true;
         public float wallSlideSpeed = 3;
@@ -22,9 +20,8 @@ namespace Player.Abilities
         // Start is called before the first frame update
         void Start()
         {
+            _playerStates = GetComponent<PlayerStates>();
             _rigidbody = GetComponent<Rigidbody2D>();
-            _inputController = GetComponent<InputController>();
-            _surroundController = GetComponent<SurroundController>();
 
             _currentWallSlideTimer = wallSlideTimer;
         }
@@ -37,7 +34,6 @@ namespace Player.Abilities
                 WallSlide();
                 CheckWallSlideStateAndReset();
             }
-            
         }
 
         private void WallSlide()
@@ -54,34 +50,24 @@ namespace Player.Abilities
 
         public bool IsWallSliding()
         {
-
-            //if (_inputController.IsWallSlideKeyPress)
-            //{
-            //if (_surroundController.isSideMidCollision && !_surroundController.isBottomCollision && _rigidbody.velocity.y < 0 && _inputController.VerticalVal > 0.5f && _currentWallSlideTimer > 0)
-                if (_surroundController.isSideMidCollision && !_surroundController.isBottomCollision && _rigidbody.velocity.y < 0 && Mathf.Abs(_inputController.HorizontalVal) > 0.5f && _currentWallSlideTimer > 0)
-                {
-                    _currentWallSlideTimer -= Time.deltaTime;
-                    return true;
-                }
-                else
-                    return false;
-            //}
-            //else
-            //{
-            //    return false;
-            //}
-            
+            if (_playerStates.IsSideMidCollision && !_playerStates.IsBottomCollision && _rigidbody.velocity.y < 0 && Mathf.Abs(_playerStates.XInputVal) > 0.5f && _currentWallSlideTimer > 0)
+            {
+                _currentWallSlideTimer -= Time.deltaTime;
+                return true;
+            }
+            else
+                return false;
 
         }
 
         private void CheckWallSlideStateAndReset()
         {
-            if (_surroundController.isBottomCollision)
+            if (_playerStates.IsBottomCollision)
             {
                 _currentWallSlideTimer = wallSlideTimer;
             }
 
-            if (!_surroundController.isSideMidCollision)
+            if (!_playerStates.IsSideMidCollision)
                 _currentWallSlideTimer = wallSlideTimer;
         }
 

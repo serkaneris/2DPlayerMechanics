@@ -5,23 +5,20 @@ using UnityEngine;
 
 namespace Player.Abilities
 {
+    [RequireComponent(typeof(PlayerStates))]
     [RequireComponent(typeof(Rigidbody2D))]
-    [RequireComponent(typeof(InputController))]
-    [RequireComponent(typeof(SurroundController))]
     public class StompController : MonoBehaviour
     {
+        private PlayerStates _playerStates;
         private Rigidbody2D _rigidbody;
-        private InputController _inputController;
-        private SurroundController _surroundController;
 
         public bool canStomp = true;
         public float stompGravityScale = 40;
 
         void Start()
         {
+            _playerStates = GetComponent<PlayerStates>();
             _rigidbody = GetComponent<Rigidbody2D>();
-            _inputController = GetComponent<InputController>();
-            _surroundController = GetComponent<SurroundController>();
             
         }
 
@@ -34,7 +31,7 @@ namespace Player.Abilities
         {
             if (canStomp)
             {
-                if (!_surroundController.isBottomCollision && _inputController.IsStompKeyPress)
+                if (!_playerStates.IsBottomCollision && _playerStates.IsStompKeyPress)
                 {
                     _rigidbody.gravityScale = stompGravityScale;
                 }
