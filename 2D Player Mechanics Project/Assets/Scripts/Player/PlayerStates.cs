@@ -13,6 +13,7 @@ public class PlayerStates : MonoBehaviour
     [field: SerializeField] public bool IsCrouching { get; set; }
     [field: SerializeField] public bool IsCrouchMoving { get; set; }
     [field: SerializeField] public bool IsWallSliding { get; set; }
+    [field: SerializeField] public bool IsTouchingLedge { get; set; }
     //[field: SerializeField] public bool IsInAir { get; set; }
     //[field: SerializeField] public bool IsGrounded { get; set; }
     //[field: SerializeField] public bool IsJumping { get; set; }
@@ -32,16 +33,18 @@ public class PlayerStates : MonoBehaviour
 
     [field: Header("--- COLLISIONS ---")]
     [field: SerializeField] public bool IsTopCollision { get; set; }
+    [field: SerializeField] public bool IsSideTopCollision { get; set; }
     [field: SerializeField] public bool IsSideMidCollision { get; set; }
     [field: SerializeField] public bool IsBottomCollision { get; set; }
     [field: SerializeField] public GroundType GroundType { get; set; }
+    
 
 
     //public bool isGrounded;
-    
+
     //public bool isJumping;
 
-    
+
 
     //public bool isFacingRight = true;
     //public bool isDucking = false;
@@ -52,5 +55,5 @@ public class PlayerStates : MonoBehaviour
     //public bool isGliding = false;
     //public bool isStomping = false;
 
-   
+
 }

@@ -6,12 +6,13 @@ namespace Player.Abilities
 {
     [RequireComponent(typeof(PlayerStates))]
     [RequireComponent(typeof(Rigidbody2D))]
+    [RequireComponent(typeof(CapsuleCollider2D))]
     public class MovementController : MonoBehaviour
     {
         private PlayerStates _playerStates;
 
         private Rigidbody2D _rigidbody;
-       
+        private Animator _animator;
         
 
         //player ability toggles
@@ -25,13 +26,15 @@ namespace Player.Abilities
         private CapsuleCollider2D _capsuleCollider;
         private Vector2 _originalColliderOffset;
         private Vector2 _originalColliderSize;
-       
+
+        
 
 
         void Start()
         {
             _playerStates = GetComponent<PlayerStates>();
             _rigidbody = GetComponent<Rigidbody2D>();
+            _animator = GetComponent<Animator>();
             _capsuleCollider = GetComponent<CapsuleCollider2D>();
             _originalColliderOffset = _capsuleCollider.offset;
             _originalColliderSize = _capsuleCollider.size;
@@ -49,6 +52,7 @@ namespace Player.Abilities
             Move();
             Flip();
             Crouching();
+            
         }
        
 
@@ -74,6 +78,7 @@ namespace Player.Abilities
                     _rigidbody.velocity = new Vector2(_playerStates.XInputVal * speed, _rigidbody.velocity.y);
                 }
 
+
                 //if (_playerStates.IsDashKeyPress)
                 //{
                 //    Debug.Log("Dash!!");
@@ -82,6 +87,28 @@ namespace Player.Abilities
 
             }
         }
+
+        //private void LedgeClimbing()
+        //{
+        //    if (!isLedgeDetected && !_playerStates.IsSideTopCollision && _playerStates.IsSideMidCollision)
+        //    {
+        //        climbTargetPos = new Vector3(transform.position.x + 0.83f, transform.position.y + 1.2f, transform.position.z);
+        //        isLedgeDetected = true;
+        //        _animator.SetBool("isLedgeClimbing", true);
+        //        //transform.position = new Vector3(transform.position.x + 0.83f, transform.position.y + 1.2f, transform.position.z);
+        //    }
+        //    else
+        //    {
+
+        //        isLedgeDetected = false;
+        //    }
+        //}
+        //public void FinishLedgeClimbing()
+        //{
+        //    isLedgeDetected = false;
+        //    _animator.SetBool("isLedgeClimbing", false);
+        //    transform.position = climbTargetPos;
+        //}
 
         private void Crouching()
         {

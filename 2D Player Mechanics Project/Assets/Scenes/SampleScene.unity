@@ -234,7 +234,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 113509156}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 23.73, y: 91.42, z: 0}
+  m_LocalPosition: {x: 10.96, y: 91.4, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -276,6 +276,7 @@ MonoBehaviour:
   speed: 10
   dashSpeed: 100
   crouchMoveSpeed: 5
+  isLedgeDetected: 0
 --- !u!114 &113509163
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -292,10 +293,11 @@ MonoBehaviour:
   LevelGeometryLayer:
     serializedVersion: 2
     m_Bits: 256
-  topCheckTransform: {fileID: 574461022}
-  bottomCheckTransform: {fileID: 347780259}
+  topChecker: {fileID: 574461022}
+  bottomChecker: {fileID: 347780259}
   topBottomCheckRadius: 0.3
-  sideMidCheckTransform: {fileID: 1459742601}
+  sideTopChecker: {fileID: 788829306}
+  sideMidChecker: {fileID: 1459742601}
   sideCheckDistance: 0.5
 --- !u!114 &113509164
 MonoBehaviour:
@@ -403,12 +405,14 @@ MonoBehaviour:
   <IsCrouching>k__BackingField: 0
   <IsCrouchMoving>k__BackingField: 0
   <IsWallSliding>k__BackingField: 0
+  <IsTouchingLedge>k__BackingField: 0
   <IsStompKeyPress>k__BackingField: 0
   <IsDashKeyPress>k__BackingField: 0
   <IsJumpPressed>k__BackingField: 0
   <XInputVal>k__BackingField: 0
   <YInputVal>k__BackingField: 0
   <IsTopCollision>k__BackingField: 0
+  <IsSideTopCollision>k__BackingField: 0
   <IsSideMidCollision>k__BackingField: 0
   <IsBottomCollision>k__BackingField: 0
   <GroundType>k__BackingField: 0
@@ -1364,7 +1368,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 29.33331, y: 91.34047, z: 6.1165867}
+  m_LocalPosition: {x: 16.563309, y: 91.32047, z: 6.1165867}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2014,7 +2018,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 0.62086517, y: 1}
+    m_SensorSize: {x: 0.7875318, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -2031,7 +2035,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1106227978}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 29.33331, y: 91.34047, z: 6.1165867}
+  m_LocalPosition: {x: 16.563309, y: 91.32047, z: 6.1165867}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -3794,8 +3798,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1952458623}
   m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: 12.6, y: 128.3, z: 12.63954}
-  m_LocalScale: {x: 1844.1847, y: 25.14363, z: 25.14363}
+  m_LocalPosition: {x: 12.6, y: 85.98, z: 12.63954}
+  m_LocalScale: {x: 161.36617, y: 25.14363, z: 25.14363}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1003538649}

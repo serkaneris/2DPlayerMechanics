@@ -11,32 +11,31 @@ namespace Player
     {
         private PlayerStates _playerStates;
         private Rigidbody2D _rigidbody;
+        private Animator _animator;
 
         public float gravityScale = 4;
 
         [Header("For Collision Check")]
         public LayerMask LevelGeometryLayer;
-        public Transform topCheckTransform;
-        public Transform bottomCheckTransform;
+        public Transform topChecker;
+        public Transform bottomChecker;
         public float topBottomCheckRadius = 0.6f;
 
         
-        //public Transform sideTopCheckTransform;
-        public Transform sideMidCheckTransform;
+        public Transform sideTopChecker;
+        public Transform sideMidChecker;
         //public Transform sideBottomCheckTransform;
         public float sideCheckDistance = 0.8f;
 
         
-
-
-
+        
 
 
         void Start()
         {
             _playerStates = GetComponent<PlayerStates>();
             _rigidbody = GetComponent<Rigidbody2D>();
-            
+            _animator = GetComponent<Animator>();
             _rigidbody.gravityScale = gravityScale;
         }
 
@@ -49,7 +48,7 @@ namespace Player
 
         private void TopBottomCollisions()
         {
-            Collider2D collider2DBottom = Physics2D.OverlapCircle(bottomCheckTransform.position, topBottomCheckRadius, LevelGeometryLayer);
+            Collider2D collider2DBottom = Physics2D.OverlapCircle(bottomChecker.position, topBottomCheckRadius, LevelGeometryLayer);
             _playerStates.IsBottomCollision = collider2DBottom;
             if(_playerStates.IsBottomCollision)
             {
@@ -59,15 +58,19 @@ namespace Player
             {
                  _playerStates.GroundType = GroundType.None;
             }
-            _playerStates.IsTopCollision = Physics2D.OverlapCircle(topCheckTransform.position, topBottomCheckRadius, LevelGeometryLayer);
+            _playerStates.IsTopCollision = Physics2D.OverlapCircle(topChecker.position, topBottomCheckRadius, LevelGeometryLayer);
         }
 
         private void SideCollisions()
         {
-            //isSideTopCollision = Physics2D.Raycast(sideTopCheckTransform.position, transform.right, sideCheckDistance, LevelGeometryLayer);
-            _playerStates.IsSideMidCollision = Physics2D.Raycast(sideMidCheckTransform.position, transform.right, sideCheckDistance, LevelGeometryLayer);
+            _playerStates.IsSideTopCollision = Physics2D.Raycast(sideTopChecker.position, transform.right, sideCheckDistance, LevelGeometryLayer);
+            _playerStates.IsSideMidCollision = Physics2D.Raycast(sideMidChecker.position, transform.right, sideCheckDistance, LevelGeometryLayer);
             //isSideBottomCollision = Physics2D.Raycast(sideBottomCheckTransform.position, transform.right, sideCheckDistance, LevelGeometryLayer);
+
+           
         }
+
+       
 
         private void CheckResetStates()
         {
@@ -80,11 +83,11 @@ namespace Player
 
         private void OnDrawGizmos()
         {
-            Gizmos.DrawWireSphere(bottomCheckTransform.position, topBottomCheckRadius);
-            Gizmos.DrawWireSphere(topCheckTransform.position, topBottomCheckRadius);
+            Gizmos.DrawWireSphere(bottomChecker.position, topBottomCheckRadius);
+            Gizmos.DrawWireSphere(topChecker.position, topBottomCheckRadius);
 
-            //Gizmos.DrawLine(sideTopCheckTransform.position, new Vector3(sideTopCheckTransform.position.x + sideCheckDistance, sideTopCheckTransform.position.y, sideTopCheckTransform.position.z));
-            Gizmos.DrawLine(sideMidCheckTransform.position, new Vector3(sideMidCheckTransform.position.x + sideCheckDistance, sideMidCheckTransform.position.y, sideMidCheckTransform.position.z));
+            Gizmos.DrawLine(sideTopChecker.position, new Vector3(sideTopChecker.position.x + sideCheckDistance, sideTopChecker.position.y, sideTopChecker.position.z));
+            Gizmos.DrawLine(sideMidChecker.position, new Vector3(sideMidChecker.position.x + sideCheckDistance, sideMidChecker.position.y, sideMidChecker.position.z));
             //Gizmos.DrawLine(sideBottomCheckTransform.position, new Vector3(sideBottomCheckTransform.position.x + sideCheckDistance, sideBottomCheckTransform.position.y, sideBottomCheckTransform.position.z));
         }
 
